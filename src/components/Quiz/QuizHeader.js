@@ -2,6 +2,11 @@ import React, { useContext } from 'react';
 import { Typography, Grid } from '@material-ui/core';
 import { QuizContext } from '../../contexts/QuizContext';
 import { TextCentered, TextRight } from '../StyledComponents/StyledTypography';
+import styled from 'styled-components';
+
+const QuestionText = styled(TextCentered)`
+	font-weight: bold;
+`;
 
 const QuizHeader = props => {
 	const quizContext = useContext(QuizContext);
@@ -20,7 +25,7 @@ const QuizHeader = props => {
 				</Grid>
 			</Grid>
 			<Grid xs={12} item justify="center">
-				<TextCentered variant="h4">{question}</TextCentered>
+				<QuestionText variant="h4">{question}</QuestionText>
 			</Grid>
 		</Grid>
 	);

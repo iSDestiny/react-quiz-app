@@ -1,5 +1,7 @@
 export const initialState = {
 	question: 'INITIAL QUESTION',
+	correctAnswer: '',
+	answers: [],
 	number: 1,
 	questionAmount: 0,
 	complete: false,
@@ -11,7 +13,9 @@ const quizReducer = (state, action) => {
 		case 'SET_CURRENT_QUESTION':
 			return {
 				...state,
-				question: action.question
+				question: action.question,
+				correctAnswer: action.correctAnswer,
+				answers: action.answers
 			};
 		case 'SET_CURRENT_NUMBER':
 			return {
@@ -22,6 +26,11 @@ const quizReducer = (state, action) => {
 			return {
 				...state,
 				questionAmount: action.questionAmount
+			};
+		case 'INCREMENT_SCORE':
+			return {
+				...state,
+				score: state.score + action.score
 			};
 		case 'NEXT_QUESTION':
 			return {
