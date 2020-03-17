@@ -5,7 +5,8 @@ export const initialState = {
 	number: 1,
 	questionAmount: 0,
 	complete: false,
-	score: 0
+	score: 0,
+	questions: []
 };
 
 const quizReducer = (state, action) => {
@@ -16,7 +17,8 @@ const quizReducer = (state, action) => {
 				question: action.question,
 				correctAnswer: action.correctAnswer,
 				answers: action.answers,
-				questionAmount: action.questionAmount
+				questionAmount: action.questionAmount,
+				questions: action.questions
 			};
 		case 'DISABLE_ANSWERS':
 			return {
@@ -46,7 +48,12 @@ const quizReducer = (state, action) => {
 				question: action.question,
 				number: state.number + 1,
 				correctAnswer: action.correctAnswer,
-				answers: action.answers
+				answers: action.answers,
+				questions: state.questions.map((question, index) => {
+					return index === state.number - 1
+						? { ...question, selectedAnswer: action.selectedAnswer }
+						: question;
+				})
 			};
 		case 'COMPLETE_QUIZ':
 			return {
@@ -55,10 +62,11 @@ const quizReducer = (state, action) => {
 			};
 		case 'RESTART':
 			return {
+				...state,
 				score: 0,
 				complete: false,
-				question: action.question,
-				questionAmount: state.questionAmount,
+				question: state.questions[0].text,
+				answers: state.questions[0].answers,
 				number: 1
 			};
 		default:
