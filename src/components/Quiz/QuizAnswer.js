@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import QuizContext from '../../contexts/QuizContext';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 
@@ -14,24 +13,41 @@ const AnswerButton = styled(Button)`
 				return '#66bb6a';
 			}
 		}};
+
+		:disabled {
+			opacity: 1;
+		}
 	}
 `;
 
 const QuizAnswer = props => {
 	const [status, setStatus] = useState('neutral');
-	const { correctAnswer } = props.state;
+	const { correctAnswer, number } = props.state;
 	const dispatch = props.dispatch;
 
 	const clickHandler = answer => {
-		console.log(correctAnswer);
-		console.log(props.state);
-		console.log(props.dispatch);
 		if (answer === correctAnswer) {
 			setStatus('right');
 			dispatch({ type: 'INCREMENT_SCORE', score: 1 });
 		} else {
 			setStatus('wrong');
 		}
+		dispatch({ type: 'DISABLE_ANSWERS' });
+		setTimeout(() => {
+			setStatus('neutral');
+			dispatch({
+				type: 'NEXT_QUESTION',
+				answers: props.questions[number].answers.map(answer => {
+					return {
+						text: answer,
+						id: Math.random(),
+						disabled: false
+					};
+				}),
+				correctAnswer: props.questions[number].correctAnswer,
+				question: props.questions[number].text
+			});
+		}, 500);
 	};
 
 	return (
@@ -39,6 +55,7 @@ const QuizAnswer = props => {
 			status={status}
 			variant="contained"
 			fullWidth
+			disabled={props.disabled}
 			onClick={() => clickHandler(props.answer)}
 		>
 			{props.answer}

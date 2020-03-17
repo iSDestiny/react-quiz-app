@@ -24,7 +24,7 @@ const QuizHeader = props => {
 					<TextRight variant="h6">Score: {score}</TextRight>
 				</Grid>
 			</Grid>
-			<Grid xs={12} item justify="center">
+			<Grid xs={12} item>
 				<QuestionText variant="h4">{question}</QuestionText>
 			</Grid>
 		</Grid>

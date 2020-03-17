@@ -10,17 +10,25 @@ export const initialState = {
 
 const quizReducer = (state, action) => {
 	switch (action.type) {
-		case 'SET_CURRENT_QUESTION':
+		case 'SET_INITIAL_QUESTION':
 			return {
 				...state,
 				question: action.question,
 				correctAnswer: action.correctAnswer,
-				answers: action.answers
+				answers: action.answers,
+				questionAmount: action.questionAmount
+			};
+		case 'DISABLE_ANSWERS':
+			return {
+				...state,
+				answers: state.answers.map(answer => {
+					return { ...answer, disabled: true };
+				})
 			};
 		case 'SET_CURRENT_NUMBER':
 			return {
 				...state,
-				number: action.number
+				number: state.number + action.number
 			};
 		case 'SET_MAX_NUMBER':
 			return {
@@ -36,7 +44,9 @@ const quizReducer = (state, action) => {
 			return {
 				...state,
 				question: action.question,
-				number: state.number + 1
+				number: state.number + 1,
+				correctAnswer: action.correctAnswer,
+				answers: action.answers
 			};
 		case 'COMPLETE_QUIZ':
 			return {
