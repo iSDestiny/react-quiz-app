@@ -25,7 +25,7 @@ const QuizHeader = props => {
 				</Grid>
 			</Grid>
 			<Grid xs={12} item>
-				<QuestionText variant="h5">{question}</QuestionText>
+				<QuestionText variant="h5" dangerouslySetInnerHTML={{ __html: question }}></QuestionText>
 			</Grid>
 		</Grid>
 	);

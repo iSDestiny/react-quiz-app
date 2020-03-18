@@ -63,7 +63,7 @@ const QuizAnswer = props => {
 			disabled={props.disabled}
 			onClick={() => clickHandler(props.answer)}
 		>
-			{props.answer}
+			{<span dangerouslySetInnerHTML={{ __html: props.answer }}></span>}
 		</AnswerButton>
 	);
 };
