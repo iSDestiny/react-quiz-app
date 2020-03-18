@@ -4,9 +4,10 @@ export const initialState = {
 	answers: [],
 	number: 1,
 	questionAmount: 0,
-	complete: false,
+	status: 0,
 	score: 0,
-	questions: []
+	questions: [],
+	category: 9
 };
 
 const quizReducer = (state, action) => {
@@ -58,16 +59,27 @@ const quizReducer = (state, action) => {
 		case 'COMPLETE_QUIZ':
 			return {
 				...state,
-				complete: true
+				status: 1
 			};
 		case 'RESTART':
 			return {
+				...initialState,
+				status: 2
+			};
+		case 'GO_HOME':
+			return {
+				...initialState,
+				status: 0
+			};
+		case 'PLAY':
+			return {
 				...state,
-				score: 0,
-				complete: false,
-				question: state.questions[0].text,
-				answers: state.questions[0].answers,
-				number: 1
+				status: 2
+			};
+		case 'SELECT_CATEGORY':
+			return {
+				...state,
+				category: action.category
 			};
 		default:
 			throw new Error();

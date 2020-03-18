@@ -15,12 +15,14 @@ const CenteredCircularProgress = styled(CircularProgress)`
 const Quiz = props => {
 	const [loading, setLoading] = useState(false);
 	const quizContext = useContext(QuizContext);
-	const { number, answers, questions } = quizContext.state;
+	const { number, answers, questions, category } = quizContext.state;
 	const dispatch = quizContext.dispatch;
 
 	useEffect(() => {
 		setLoading(true);
-		fetch('https://opentdb.com/api.php?amount=10&difficulty=easy')
+		fetch(
+			`https://opentdb.com/api.php?amount=10&difficulty=easy&category=${category}`
+		)
 			.then(response => response.json())
 			.then(responseData => {
 				const newQuestions = responseData.results.map(question => {

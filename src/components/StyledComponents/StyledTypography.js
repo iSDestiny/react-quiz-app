@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const TextCentered = styled(Typography)`
 	text-align: center;
+	font-weight: bold;
 `;
 
 export const TextRight = styled(Typography)`

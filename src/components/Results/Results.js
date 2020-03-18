@@ -8,7 +8,6 @@ import styled from 'styled-components';
 const ActionButton = styled(Button)`
 	&& {
 		background-color: #fafafa;
-		margin-top: 1.5em;
 		font-size: 1.1em;
 	}
 `;
@@ -18,12 +17,16 @@ const Results = props => {
 	const { score } = quizContext.state;
 	const dispatch = quizContext.dispatch;
 
-	const handlePlayAgain = () => {
+	const onPlayAgainHandler = () => {
 		dispatch({ type: 'RESTART' });
 	};
 
+	const onGoHomeHandler = () => {
+		dispatch({ type: 'GO_HOME' });
+	};
+
 	return (
-		<Grid container justify="center">
+		<Grid container justify="center" spacing={3}>
 			<Grid item sm={12}>
 				<TextCentered variant="h6">You scored:</TextCentered>
 				<TextCentered variant="h4">{score}</TextCentered>
@@ -36,14 +39,25 @@ const Results = props => {
 					question={question.text}
 				></QuestionSummary>
 			))} */}
-			<Grid item sm={12} container justify="center">
-				<ActionButton
-					variant="contained"
-					color="default"
-					onClick={() => handlePlayAgain()}
-				>
-					Play Again
-				</ActionButton>
+			<Grid container item spacing={2}>
+				<Grid item sm={12} container justify="center">
+					<ActionButton
+						variant="contained"
+						color="default"
+						onClick={onPlayAgainHandler}
+					>
+						Play Again
+					</ActionButton>
+				</Grid>
+				<Grid item sm={12} container justify="center">
+					<ActionButton
+						variant="contained"
+						color="default"
+						onClick={onGoHomeHandler}
+					>
+						Go Home
+					</ActionButton>
+				</Grid>
 			</Grid>
 		</Grid>
 	);
