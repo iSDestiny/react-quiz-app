@@ -20,9 +20,7 @@ const Quiz = props => {
 
 	useEffect(() => {
 		setLoading(true);
-		fetch(
-			`https://opentdb.com/api.php?amount=10&difficulty=easy&category=${category}`
-		)
+		fetch(`https://opentdb.com/api.php?amount=10&category=${category}`)
 			.then(response => response.json())
 			.then(responseData => {
 				const newQuestions = responseData.results.map(question => {

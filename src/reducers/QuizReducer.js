@@ -64,7 +64,8 @@ const quizReducer = (state, action) => {
 		case 'RESTART':
 			return {
 				...initialState,
-				status: 2
+				status: 2,
+				category: state.category
 			};
 		case 'GO_HOME':
 			return {
