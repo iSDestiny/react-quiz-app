@@ -2,17 +2,25 @@ import React, { useContext, useState, useEffect } from 'react';
 import { QuizContext } from '../../contexts/QuizContext';
 import QuizHeader from './QuizHeader';
 import QuizAnswer from './QuizAnswer';
-import { Grid } from '@material-ui/core';
+import { Grid, CircularProgress } from '@material-ui/core';
+import styled from 'styled-components';
+
+const CenteredCircularProgress = styled(CircularProgress)`
+	&& {
+		margin-top: 3em;
+		margin-bottom: 3em;
+	}
+`;
 
 const Quiz = props => {
+	const [loading, setLoading] = useState(false);
 	const quizContext = useContext(QuizContext);
 	const { number, answers, questions } = quizContext.state;
 	const dispatch = quizContext.dispatch;
 
 	useEffect(() => {
-		fetch(
-			'https://opentdb.com/api.php?amount=10&difficulty=easy&token=8dfe32d153267e03e208255382f0ed8faf312103a43d56fca1ef19f5e2a63a2f'
-		)
+		setLoading(true);
+		fetch('https://opentdb.com/api.php?amount=10&difficulty=easy')
 			.then(response => response.json())
 			.then(responseData => {
 				const newQuestions = responseData.results.map(question => {
@@ -47,28 +55,39 @@ const Quiz = props => {
 						};
 					})
 				});
+				setLoading(false);
 			});
 	}, []);
 
 	return (
-		<Grid container spacing={4} justify="center">
-			<Grid item xs={12}>
-				<QuizHeader></QuizHeader>
-			</Grid>
-			<Grid container item spacing={4} justify="center">
-				{answers.map(answer => (
-					<Grid item md={6} xs={12} key={answer.id}>
-						<QuizAnswer
-							answer={answer.text}
-							questions={questions}
-							id={answer.id}
-							disabled={answer.disabled}
-							state={quizContext.state}
-							dispatch={quizContext.dispatch}
-						></QuizAnswer>
+		<Grid container spacing={4} justify="center" alignItems="center">
+			{loading ? (
+				<CenteredCircularProgress
+					thickness={5}
+					size="5rem"
+					color="secondary"
+				/>
+			) : (
+				<>
+					<Grid item xs={12}>
+						<QuizHeader></QuizHeader>
 					</Grid>
-				))}
-			</Grid>
+					<Grid container item spacing={4} justify="center">
+						{answers.map(answer => (
+							<Grid item md={6} xs={12} key={answer.id}>
+								<QuizAnswer
+									answer={answer.text}
+									questions={questions}
+									id={answer.id}
+									disabled={answer.disabled}
+									state={quizContext.state}
+									dispatch={quizContext.dispatch}
+								></QuizAnswer>
+							</Grid>
+						))}
+					</Grid>
+				</>
+			)}
 		</Grid>
 	);
 };
