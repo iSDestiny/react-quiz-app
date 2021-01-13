@@ -12,6 +12,7 @@ multiple choice.
 - Politics
 
 ## Tech Stack:
+- Javascript
 - React
 - Styled Components
 - React Context/Reducer
